@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="home">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="home__title">Search Results for "{{ query }}"</h1>
+                <button class="home__nav home__nav--prev" type="button"><i class="icon ion-ios-arrow-round-back"></i></button>
+                <button class="home__nav home__nav--next" type="button"><i class="icon ion-ios-arrow-round-forward"></i></button>
+            </div>
+            <div class="col-12">
+                <div class="owl-carousel home__carousel">
+                    {% for i in movies %}
+                    <div class="item">
+                        <!-- card -->
+                        <div class="card card--big">
+                            <div class="card__cover">
+                                <img src="{{ i.poster.url }}" alt="">
+                                <a href="{% url 'movie:moviedetail' i.id %}" class="card__play"></a>
+                            </div>
+                            <div class="card__content">
+                                <h3 class="card__title"><a href="{% url 'movie:moviedetail' i.id %}">{{ i.movie_title }}</a></h3>
+                                <span class="card__category"><a href="#">{{ i.category }}</a></span>
+                                <span class="card__rate"><i class="icon ion-ios-star"></i>{{ i.average_rating|floatformat:1 }}</span>
+                            </div>
+                        </div>
+                        <!-- end card -->
+                    </div>
+                    {% empty %}
+                    <div class="row mx-auto">
+                        <p class="text-center my-search-text">0 Results found</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--    <div>-->
+<!--        <h1 class="text-center">Search Results for "{{ query }}"</h1>-->
+<!--    </div>-->
+<!--    <div class="col-12">-->
+<!--        <div class="owl-carousel home__carousel">-->
+<!--            {% for i in movies %}-->
+<!--            <div class="item">-->
+<!--                &lt;!&ndash; card &ndash;&gt;-->
+<!--                <div class="card card&#45;&#45;big">-->
+<!--                    <div class="card__cover">-->
+<!--                        <img src="{{ i.poster.url }}" alt="">-->
+<!--                        <a href="{% url 'movie:moviedetail' i.id %}" class="card__play"></a>-->
+<!--                    </div>-->
+<!--                    <div class="card__content">-->
+<!--                        <h3 class="card__title"><a href="{% url 'movie:moviedetail' i.id %}">{{ i.movie_title }}</a></h3>-->
+<!--                        <span class="card__category"><a href="#">{{ i.category }}</a></span>-->
+<!--                        <span class="card__rate"><i class="icon ion-ios-star"></i>{{ i.average_rating|floatformat:1 }}</span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                &lt;!&ndash; end card &ndash;&gt;-->
+<!--            </div>-->
+<!--            {% empty %}-->
+<!--            <div class="row mx-auto">-->
+<!--                <p class="text-center my-search-text">0 Results found</p>-->
+<!--            </div>-->
+<!--            {% endfor %}-->
+<!--        </div>-->
+<!--    </div>-->
+{% endblock %}

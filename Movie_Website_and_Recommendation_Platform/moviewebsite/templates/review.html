@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- page title -->
+<section class="section section--first section--bg">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="section__wrap">
+<!--					<h2 class="section__title">Write Review</h2>-->
+<!--					<ul class="breadcrumb">-->
+<!--						<li class="breadcrumb__item"><a href="{% url 'movie:index' %}">Home</a></li>-->
+<!--						<li class="breadcrumb__item breadcrumb__item&#45;&#45;active">Add Movie</li>-->
+<!--					</ul>-->
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- end page title -->
+
+<!-- write review  -->
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <h2 class="section__title">Write a Review</h2>
+            <form action="" method="post" class="sign__form" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="sign__group">
+                    <table>
+                        <tr>
+                            <td class="col-md-12"><h4><label class="white">Review title <br><br><input type="text" class="sign__input_review_title" name="review_title" required></label></h4><br></td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-12"><h4><label class="white">Review in detail <br><br><textarea class="sign__input_movie" rows=8 name="review" placeholder="Write your review here" required></textarea></label></h4></td>
+                        </tr>
+                    </table>
+                </div>
+                <a href="{% url 'movie:write_review' movie.id %}"><button class="sign__btn_edit" type="submit">Submit</button></a>
+            </form>
+        </div>
+    </div>
+</section>
+<!--end write review-->
+
+{% endblock %}

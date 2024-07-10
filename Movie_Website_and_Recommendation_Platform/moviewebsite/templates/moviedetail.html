@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- movie details -->
+<div class="hero mv-single-hero"></div>
+<div class="page-single movie-single movie_single">
+	<div class="container">
+		<div class="row ipad-width2">
+			<div class="col-md-4 col-sm-12 col-xs-12">
+				<div class="movie-img sticky-sb">
+					<img src="{{movie.poster.url}}" alt="">
+					<div class="movie-btn">
+						<div class="btn-transform transform-vertical red">
+							<div><a href="#" class="item item-1 redbtn">Watch Trailer</a></div>
+							<div><a href="{{movie.trailer_link}}" class="item item-2 redbtn fancybox-media hvr-grow">Play now</a></div>
+						</div>
+					</div>
+					{% if movie.user_id == user.id %}
+					<div>
+						<a href="{% url 'movie:edit_movie' movie.id %}"><button class="btn-edit">Edit</button></a>
+            			<a href="{% url 'movie:del_movie' movie.id %}"><button class="btn-del" onclick="return confirm('Are you sure you want to delete this movie?');">Delete</button></a>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+			<div class="col-md-8 col-sm-12 col-xs-12">
+				<div class="movie-single-ct main-content">
+					<h1 class="bd-hd">{{movie.movie_title}}</h1>
+					<div class="movie-rate">
+						<div class="rate">
+							<i class="ion-android-star"></i>
+							<p><span>{{ average_rating|floatformat:1 }}</span> /10<br>
+								<span class="rv">{{ rating_count }} Ratings</span>
+								<span class="rv">{{ review_count }} Reviews</span>
+							</p>
+						</div>
+						<div class="rate-star">
+							{% if user_rating %}
+								{% if user_rating.rating == '' %}
+									<p>Rate This Movie:</p>
+									<form action="{% url 'movie:rate_movie' movie.id %}" method="post">
+										{% csrf_token %}
+										<select class="sign__input_profile" name="rating" required>
+											<option selected hidden>Select</option>
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="4">4</option>
+											<option value="5">5</option>
+											<option value="6">6</option>
+											<option value="7">7</option>
+											<option value="8">8</option>
+											<option value="9">9</option>
+											<option value="10">10</option>
+										</select>
+										<button type="submit" class="btn btn-edit">Submit</button>
+									</form>
+								{% else %}
+									<p>You have rated: {{ user_rating.rating }} / 10</p>
+								{% endif %}
+							{% else %}
+								<p>Rate This Movie:</p>
+								<form action="{% url 'movie:rate_movie' movie.id %}" method="post">
+									{% csrf_token %}
+									<select name="rating" required>
+										<option selected disabled>Select</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+										<option value="9">9</option>
+										<option value="10">10</option>
+									</select>
+									<button type="submit" class="btn btn-rate">Submit</button>
+								</form>
+							{% endif %}
+						</div>
+					</div>
+					<div class="movie-tabs">
+						<div class="tabs">
+							<ul class="tab-links tabs-mv">
+								<li class="active"><a href="#overview">Overview</a></li>
+								<li><a href="#reviews"> Reviews</a></li>
+							</ul>
+							<div class="tab-content">
+								<div id="overview" class="tab active">
+									<div class="row">
+										<div class="col-md-8 col-sm-12 col-xs-12">
+											<p style="text-align: justify">{{movie.description}}</p>
+										</div>
+										<div class="col-md-4 col-xs-12 col-sm-12">
+											<div class="sb-it">
+												<h6>Stars: </h6>
+												<p><span style="color: blue;">{{movie.actors}}</span></p>
+											</div>
+											<div class="sb-it">
+												<h6>Genre:</h6>
+												<p><span style="color: blue;">{{movie.category}}</span></p>
+											</div>
+											<div class="sb-it">
+												<h6>Release Date:</h6>
+												<p><span style="color: blue;">{{movie.release_date}}</span></p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div id="reviews" class="tab review">
+									<div class="row">
+										<div class="rv-hd">
+											<div class="div">
+												<h2>&nbsp;&nbsp;{{movie.movie_title}} &nbsp;&nbsp;<a href="{% url 'movie:write_review' movie.id %}" class="redbtn">Write Review</a></h2>
+											</div>
+										</div>
+										{% for r in reviews %}
+										<div class="mv-user-review-item">
+											<div class="user-infor">
+												<img src="{% static 'img/default.jpeg' %}" alt="">
+												<div>
+													<h3>{{r.review_title}}</h3>
+													<p class="time">{{ r.date|date:"d F Y" }} by {{r.user.first_name}} {{r.user.last_name}}</p>
+												</div>
+											</div>
+											<div class="col-md-12 col-sm-12 col-xs-12">
+												<p>{{r.review}}</p>
+											</div>
+										</div>
+										{% endfor %}
+									</div>
+							    </div>
+						    </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end movie details -->
+
+{% endblock %}

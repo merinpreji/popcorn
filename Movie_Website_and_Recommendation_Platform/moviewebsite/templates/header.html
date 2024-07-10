@@ -1,0 +1,66 @@
+{% load static %}
+<!-- header -->
+<header class="header">
+	<div class="header__wrap">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="header__content">
+						<a href="{% url 'movie:index' %}" class="header__logo"><img src="{% static 'img/popcorn.png' %}" alt=""></a>
+						<ul class="header__nav">
+							<li class="header__nav-item">
+								<a class="dropdown-toggle header__nav-link" href="{% url 'movie:index' %}" role="button" id="dropdownMenuHome" aria-haspopup="true" aria-expanded="false">Home</a>
+							</li>
+							<li class="header__nav-item">
+								<a class="dropdown-toggle header__nav-link" href="{% url 'movie:about' %}" role="button" id="dropdownAbout" aria-haspopup="true" aria-expanded="false">About</a>
+							</li>
+							{% if user.is_authenticated %}
+							<li class="header__nav-item"><a href="{% url 'userprofile:viewprofile' %}" class="header__nav-link">Profile</a></li>
+							{% else %}
+							<li class="header__nav-item"><a href="{% url 'credentials:register' %}" class="header__nav-link">Register</a></li>
+							{% endif %}
+							<li class="dropdown header__nav-item">
+								<a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
+								<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
+									<li><a href="{% url 'movie:add_movie' %}">ADD MOVIE</a></li>
+									<li><a href="{% url 'movie:help' %}">HELP</a></li>
+<!--									<li><a href="404.html">404 PAGE</a></li>-->
+								</ul>
+							</li>
+							<li><button class="header__search-btn" type="button"><i class="icon ion-ios-search"></i></button></li>&nbsp;
+							{% if user.is_authenticated %}
+							<li><b style="color: white;">Welcome {{user.first_name}}!</b></li>
+							{% endif %}
+						</ul>
+						{% if user.is_authenticated %}
+						<div class="header__auth">
+							<a href="{% url 'credentials:logout' %}" class="header__sign-in"><i class="icon ion-ios-log-in"></i><span>Log out</span></a>
+						</div>
+						{% else %}
+						<div class="header__auth">
+							<a href="{% url 'credentials:login' %}" class="header__sign-in"><i class="icon ion-ios-log-in"></i><span>Log in</span></a>
+						</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- header search -->
+	<form action="{% url 'movie:search_movie' %}" method="get" class="header__search" role="search">
+		{% csrf_token %}
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="header__search-content">
+						<input type="search" aria-label="Search" name="q" placeholder="Search for a movie, TV Series that you are looking for">
+						<button class="header__search-btn" type="submit">Search</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<!-- end header search -->
+</header>
+<!-- end header -->

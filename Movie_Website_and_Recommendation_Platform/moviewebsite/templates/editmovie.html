@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- page title -->
+<section class="section section--first section--bg">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="section__wrap">
+					<h2 class="section__title">Edit Movie</h2>
+					<ul class="breadcrumb">
+						<li class="breadcrumb__item"><a href="{% url 'movie:index' %}">Home</a></li>
+						<li class="breadcrumb__item breadcrumb__item--active">Edit Movie</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- end page title -->
+
+<!-- add new movie -->
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <h2 class="section__title">Enter movie details</h2>
+            <form action="" method="post" class="sign__form" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="sign__group">
+                    <table>
+                        <tr>
+                            <td class="col-md-6"><h4><label class="white">Movie Title <br><br><input type="text" class="sign__input_profile" name="movie_title" placeholder="Movie Title" required></label></h4><br></td>
+                            <td class="col-md-6">
+                                <h4><label class="white">Genre <br><br>
+                                    <select name="category" class="sign__input_profile" required>
+                                        <option value="" hidden selected>Select Genre</option>
+                                        {% for category in categories %}
+                                            <option value="{{ category.id }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </label><br></h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-6"><h4><label class="white">Release Date <br><br><input type="text" class="sign__input_profile" name="release_date" placeholder="Release date" required></label></h4><br></td>
+                            <td class="col-md-6"><h4><label class="white">Actors <br><br><input type="text" class="sign__input_profile" name="actors" placeholder="Actors" required></label></h4></td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-6"><h4><label class="white">Upload Poster <br><br><input type="file" class="sign__input_profile" name="poster" required></label></h4><br></td>
+                            <td class="col-md-6"><h4><label class="white">Trailer Link <br><br><input type="text" class="sign__input_profile" name="trailer_link" placeholder="Trailer link" required></label></h4><br></td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-12"><h4><label class="white">Description <br><br><textarea class="sign__input_movie" rows=10 name="description" placeholder="Description" required></textarea></label></h4></td>
+                        </tr>
+                    </table>
+                </div>
+                <button class="sign__btn_edit" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</section>
+<!--end edit movie-->
+
+{% endblock %}
